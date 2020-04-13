@@ -1,0 +1,26 @@
+rbac:
+  details:
+    # class : userManagementController
+    - permission: USER_CREATE_MODIFY
+      urlmapping:
+        '[/users]': PUT,POST,GET
+        '[/users/admin]': PUT
+        '[/users/status]': PUT
+        '[/users/approve]': PUT
+        '[/users/reject]': POST
+        '[/users/bulk/removegroup/[0-9]+]': POST
+      #class : OrgController and TeamController
+    - permission: ORG_GROUP_CREATE_MODIFY
+      urlmapping:
+        '[/organizations]': PUT,POST
+        '[/team]': POST
+        '[/team/.*]': PUT,DELETE
+      #class : RoleController
+    - permission: ROLES_CREATE_MODIFY
+      urlmapping:
+        '[/roles]': POST
+        '[/roles/.*]': PUT,DELETE
+      #class : LoginController
+    - permission: NORMAL
+      urlmapping:
+        '[/test]': GET

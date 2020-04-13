@@ -209,7 +209,11 @@ public class JwtTokenProvider {
     public Authentication getAuthentication(String token) {
     	String username = getUsername(token);
     	List<String> permissionsList = getPermissionsList(token);
-        return new UsernamePasswordAuthenticationToken(username, "", permissionsList.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
+    	List<String> permissions = new ArrayList<>();
+    	permissionsList.forEach(permission -> {
+    	    permissions.add("ROLE_"+permission);
+        });
+        return new UsernamePasswordAuthenticationToken(username, "", permissions.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
     }
 
     /**
@@ -220,6 +224,7 @@ public class JwtTokenProvider {
      * @return an instance of Authentication
      */
     public Authentication getAuthentication(String token, String groupName, String memberSystemId ) {
-        return new UsernamePasswordAuthenticationToken(getUsername(token), "", getPermissionsList(token,groupName, memberSystemId).stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
+        return new UsernamePasswordAuthenticationToken(getUsername(token),
+                "", getPermissionsList(token,groupName, memberSystemId).stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
     }
 }
